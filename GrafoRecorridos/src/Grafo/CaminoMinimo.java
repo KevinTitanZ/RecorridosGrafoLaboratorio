@@ -1,19 +1,22 @@
 package Grafo;
 
-public class CaminoMinimo {
+public class CaminoMinimo extends GrafoM{
 		private int[][] Pesos;
 		private int[] ultimo;
 		private int[] D;
 		private boolean[] F;
 		private int s, n; // vértice origen y número de vértices
+		private Vertices[] verts;
 
-		public CaminoMinimo(GrafoPeso gp, int origen) {
+		public CaminoMinimo(GrafoPeso gp, int origen, Vertices [] vertices) {
 			n = gp.numeroDeVertices();
 			setS(origen);
+			this.s = origen;
 			Pesos = gp.getMatPeso();
 			setUltimo(new int[n]);
 			setD(new int[n]);
 			F = new boolean[n];
+			this.verts = vertices;
 		}
 
 		public void caminoMinimos() {
@@ -52,6 +55,19 @@ public class CaminoMinimo {
 			}
 			return v;
 	}
+		
+		public void mostrarCaminoOptimo(int destino) {
+		    System.out.println("Camino más óptimo desde el vértice " + verts[s].nombre + " al vértice " + verts[destino].nombre + ":");
+		    
+		    System.out.print(verts[destino].nombre);
+		    int anterior = ultimo[destino];
+		    while (anterior != s) {
+		        System.out.print(" <- " + verts[anterior].nombre);
+		        anterior = ultimo[anterior];
+		    }
+		    System.out.println(" <- " + verts[s].nombre);
+		    System.out.println("Distancia total: " + D[destino]);
+		}
 
 		public int[] getUltimo() {
 			return ultimo;

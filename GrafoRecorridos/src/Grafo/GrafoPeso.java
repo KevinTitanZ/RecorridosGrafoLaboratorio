@@ -1,6 +1,6 @@
 package Grafo;
 
-public class GrafoPeso {
+public class GrafoPeso extends GrafoM{
 
 	public static final int INFINITO = Integer.MAX_VALUE;
 

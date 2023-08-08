@@ -61,25 +61,26 @@ public class Menu {
 				MenuOpciones();
 				break;
 			case 5:
-				info.pedirVerticesAlUsuario();
-		        
 		        Scanner scanner = new Scanner(System.in);
 		        System.out.println("Ingrese el vértice de origen para el algoritmo de Dijkstra: ");
 		        String origen2 = scanner.next();
-		        
-		        int origenIndex = info.numVertice(origen2);
+		        scanner.nextLine();
+		        System.out.println("Ingrese el nombre del vértice destino para mostrar el camino más óptimo: ");
+		        String destino = scanner.next();
+		        scanner.nextLine();
+		        int origenIndex = re.numVertice(origen2);
 		        if (origenIndex < 0) {
 		            System.out.println("El vértice de origen no existe.");
 		            return;
 		        }
 		        
-		        GrafoPeso grafMatPeso = new GrafoPeso(info.numeroDeVertices());
+		        GrafoPeso grafMatPeso = new GrafoPeso(re.numeroDeVertices());
 		        
-		        for (int i = 0; i < info.numeroDeVertices(); i++) {
-		            for (int j = 0; j < info.numeroDeVertices(); j++) {
-		                if (info.adyacente(i, j)) {
+		        for (int i = 0; i < re.numeroDeVertices(); i++) {
+		            for (int j = 0; j < re.numeroDeVertices(); j++) {
+		                if (re.adyacente(i, j)) {
 		                    // Pregunta al usuario por el peso de la arista entre los vértices i y j
-		                    System.out.println("Ingrese el peso de la arista entre " + info.verts[i].nombre + " y " + info.verts[j].nombre + ": ");
+		                    System.out.println("Ingrese el peso de la arista entre " + re.verts[i].nombre + " y " + re.verts[j].nombre + ": ");
 		                    int peso = scanner.nextInt();
 		                    
 		                    // Actualiza el peso en la matriz de pesos si la arista existe
@@ -92,21 +93,29 @@ public class Menu {
 		            }
 		        }
 		        
-		        CaminoMinimo dijkstra = new CaminoMinimo(grafMatPeso, origenIndex);
+		        CaminoMinimo dijkstra = new CaminoMinimo(grafMatPeso, origenIndex,re.verts);
 		        dijkstra.caminoMinimos();
 		        System.out.println("Resultados del algoritmo de Dijkstra:");
 
 		        for (int i = 0; i < dijkstra.getD().length; i++) {
-		            System.out.println("Distancia mínima desde el vértice " + info.verts[dijkstra.getS()].nombre + " al vértice " + info.verts[i].nombre + ": " + dijkstra.getD()[i]);
+		            System.out.println("Distancia mínima desde el vértice " + re.verts[dijkstra.getS()].nombre + " al vértice " + re.verts[i].nombre + ": " + dijkstra.getD()[i]);
 		            
-		            System.out.print("Camino: " + info.verts[i].nombre);
+		            System.out.print("Camino: " + re.verts[i].nombre);
 		            int anterior = dijkstra.getUltimo()[i];
 		            while (anterior != dijkstra.getS()) {
-		                System.out.print(" <- " + info.verts[anterior].nombre);
+		                System.out.print(" <- " + re.verts[anterior].nombre);
 		                anterior = dijkstra.getUltimo()[anterior];
 		            }
-		            System.out.println(" <- " + info.verts[dijkstra.getS()].nombre);
+		            System.out.println(" <- " + re.verts[dijkstra.getS()].nombre);
 		        }
+		        
+		        
+		        int destinoIndex = re.numVertice(destino);
+		        if (destinoIndex < 0) {
+		            System.out.println("El vértice destino no existe.");
+		            return;
+		        }
+		        dijkstra.mostrarCaminoOptimo(destinoIndex);
 		        MenuOpciones();
 				break;
 			case 6:
